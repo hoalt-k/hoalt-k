@@ -14,9 +14,9 @@ Task Efficiency:
 Add automation features to Task Tracker to make managing tasks easier by automating routine tasks and cutting down on the amount of work that needs to be done by hand. 
 Smart task prioritization algorithms can help users organize their jobs more effectively, saving them time and reducing the chance of making mistakes. 
 
-Personized Task Management: 
+Personalized Task Management: 
 
-Personalization technologies can be used to make Task Tracker's features and suggestions fit the needs and wants of each user. 
+Personalization technologies can be used to tailor Task Tracker's features and suggestions to each user's needs and wants. 
 Allow users to organize their jobs in ways that work best for them by giving them the choice of how to categorize them and how to be reminded of them.
 Features
 Task Creation: Task Tracker makes it easy to add new tasks, so users can quickly write down important things they need to do as they think of them. Users can easily add jobs with just a few taps, making sure that nothing gets missed, whether it's a work assignment, something for the grocery list, or a personal reminder.
@@ -38,6 +38,16 @@ Product managers are very important because they make sure that the app meets us
 Business Owners/Investors:
 
 Stakeholders will also include business owners and investors who have a reason to want the Task Tracker app to do well. They might give the app money, resources, or strategic advice to help it grow and improve.
+Platform
+
+Android Studio will be used as the main development tool for the Task Tracker app. Android Studio is a powerful and effective setting for making Android apps. It has many tools and resources that make the development process faster and easier. Android Studio also makes sure that Task Tracker works with the Android operating system.
+
+Front/Back End Support
+
+Task Tracker will use Android Studio's user-friendly interface builder and XML layout files for front-end development to make a user interface that is easy to use and looks good. Back-end support will come from SQLite, a lightweight relational database management system that is built into Android Studio. Task management tools will store data in SQLite, which will make sure that data management and retrieval are done quickly.
+
+Design (Wireframe)
+
+To plan the aesthetic of Task Tracker, wireframes were made to show the main screens and functions of the app. These wireframes will help with the layout, navigation, and functions of the app, making sure that the design is consistent and easy to use. The design guidelines will focus on making things simple, clear, and easy to use. The goal is to make managing tasks easy for everyone.
 
 To summarize, the Task Tracker app's plan for development is a solid one that focuses on making it easy for people to use, keeping track of tasks efficiently, giving people a personalized experience, and always achieving improvements. The Task Tracker app wants to give its users an easy-to-use and streamlined way to handle their tasks by putting these goals at the top of its list and involving important people in the process. Task Tracker is designed to be easy to use, work well, and be flexible so that it can become an important tool for people who want to be more productive and organized in their daily lives. As the project goes on, it will be important to keep working together, incorporate feedback, and make small changes over and over again to make sure the app meets user wants and expectations.
-
