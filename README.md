@@ -24,7 +24,7 @@ Task Creation: Task Tracker makes it easy to add new tasks, so users can quickly
 Task Deletion: Task Tracker makes managing tasks easier by making it simple to remove tasks from the list that are already done or aren't important. Users can clear out their task list with just a swipe or tap so they can stay focused on the most important and current jobs at hand without being distracted by other things.
 
 Basic Task List Display: The app gives users a clear and concise view of all their jobs by arranging them in a structured and orderly way. People can quickly look through their to-do lists and see which jobs have due dates coming up or how important they are, which makes them more productive and better at managing their time.
-Task Priority (Basic): Users can assign basic priority levels to tasks for better organization. This will be done by allowing the user to highlight the symbol next to that task so that it stands out. This will allow the user to quickly identify the tasks that are most important to complete first. 
+Task Priority (Basic): Users can assign basic priority levels to tasks for better organization. This will be done by allowing the user to highlight the symbol next to that task so that it stands out. This symbol will be an alarm clock to signify the task's importance. This will allow the user to quickly identify the tasks that are most important to complete first. 
 Stakeholders
 Users:
 
