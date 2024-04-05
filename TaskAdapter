@@ -1,0 +1,69 @@
+package com.example.tasktracker;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
+// Custom adapter for the ListView to display tasks
+public class TaskAdapter extends ArrayAdapter<Task> {
+
+    // Constructor for the TaskAdapter
+    public TaskAdapter(Context context, ArrayList<Task> tasks) {
+        super(context, 0, tasks);
+    }
+
+    // Method to create and return the view for each task in the list
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        // Get the Task object for the current position in the list
+        Task task = getItem(position);
+
+        // Check if an existing view is being reused, otherwise inflate a new view
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.task_item, parent, false);
+        }
+
+        // Lookup UI components within the task_item layout
+        TextView textViewName = convertView.findViewById(R.id.textViewTaskName);
+        TextView textViewDueDate = convertView.findViewById(R.id.textViewDueDate);
+        CheckBox checkBoxCompleted = convertView.findViewById(R.id.checkBoxCompleted);
+        ImageView imageViewPriority = convertView.findViewById(R.id.imageViewPriority);
+
+        // Set up the click listener for the priority icon
+        imageViewPriority.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                task.togglePriority();
+                if (task.isPriority()) {
+                    imageViewPriority.setImageResource(R.drawable.ic_priority);
+                } else {
+                    imageViewPriority.setImageResource(R.drawable.ic_priority_inactive);
+                }
+                notifyDataSetChanged();
+            }
+        });
+
+        // Populate the UI components with the task data
+        textViewName.setText(task.getName());
+        textViewDueDate.setText(task.getDueDate());
+        checkBoxCompleted.setChecked(task.isCompleted());
+
+        // Update the priority icon based on the task's priority status
+        if (task.isPriority()) {
+            imageViewPriority.setImageResource(R.drawable.ic_priority);
+        } else {
+            imageViewPriority.setImageResource(R.drawable.ic_priority_inactive);
+        }
+        imageViewPriority.setVisibility(View.VISIBLE);
+
+        // Return the completed view
+        return convertView;
+    }
+}
