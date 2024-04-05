@@ -1,18 +1,80 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+package com.example.tasktracker; //  package name
 
-    <ListView
-        android:id="@+id/listViewTasks"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.text.InputType;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import androidx.appcompat.app.AppCompatActivity;
 
-    <Button
-        android:id="@+id/buttonAddTask"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add Task"/>
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-</LinearLayout>
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+
+    //variables
+    private FloatingActionButton fabAddTask;
+    private ArrayList<Task> tasks;
+    private ListView listViewTasks;
+    private TaskAdapter taskadapter;
+    private Button buttonAddTask;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        tasks = new ArrayList<>(); //will allow list to store tasks
+        listViewTasks = findViewById(R.id.listViewTasks);
+
+        // Initialize fabAddTask, not 'fab'
+        fabAddTask = findViewById(R.id.fab_add_task);
+
+        //this is for the adapter
+        taskadapter = new TaskAdapter(this, tasks);
+        listViewTasks.setAdapter(taskadapter);
+
+        // Now fabAddTask is not null, and you can set the OnClickListener
+        fabAddTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddTaskDialog();
+            }
+        });
+    }
+
+
+    private void showAddTaskDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Add a New Task");
+
+        // Set up the input
+        final EditText input = new EditText(MainActivity.this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        // Set up the buttons in the dialog
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String taskName = input.getText().toString();
+                tasks.add(new Task(taskName)); // Add new task to list
+                taskadapter.notifyDataSetChanged(); //tells the adapter to update
+                // TODO: Add the task to your data source and update the UI
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+}
+
