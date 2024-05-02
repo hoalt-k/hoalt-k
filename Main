@@ -1,79 +1,116 @@
-package com.example.tasktracker; //  package name
+package com.example.tasktracker;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
-    //variables
     private FloatingActionButton fabAddTask;
     private ArrayList<Task> tasks;
     private ListView listViewTasks;
     private TaskAdapter taskadapter;
-    private Button buttonAddTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tasks = new ArrayList<>(); //will allow list to store tasks
+        // Initialize task list and list view components
+        tasks = new ArrayList<>();
         listViewTasks = findViewById(R.id.listViewTasks);
-
-        // Initialize fabAddTask, not 'fab'
-        fabAddTask = findViewById(R.id.fab_add_task);
-
-        //this is for the adapter
         taskadapter = new TaskAdapter(this, tasks);
         listViewTasks.setAdapter(taskadapter);
 
-        // Now fabAddTask is not null, and you can set the OnClickListener
+        // Floating action button to add tasks
+        fabAddTask = findViewById(R.id.fab_add_task);
         fabAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showAddTaskDialog();
+                showAddTaskDialog(); // Show dialog to add a new task
             }
+        });
+
+        // Set long click listener for deleting tasks
+        listViewTasks.setOnItemLongClickListener((parent, view, position, id) -> {
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("Delete Task")
+                    .setMessage("Do you really want to delete this task?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        tasks.remove(position); // Remove task from the list
+                        taskadapter.notifyDataSetChanged(); // Refresh the ListView
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+            return true;
         });
     }
 
-
+    // Method to show dialog for adding new tasks
     private void showAddTaskDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add a New Task");
 
-        // Set up the input
-        final EditText input = new EditText(MainActivity.this);
+        // Layout to contain EditText and a Button
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
+        input.setHint("Task name");
+        layout.addView(input);
 
-        // Set up the buttons in the dialog
-        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String taskName = input.getText().toString();
-                tasks.add(new Task(taskName)); // Add new task to list
-                taskadapter.notifyDataSetChanged(); //tells the adapter to update
-                // TODO: Add the task to your data source and update the UI
+        final Button dateButton = new Button(this);
+        dateButton.setText("Set Due Date (Optional)");
+        layout.addView(dateButton);
+
+        builder.setView(layout);
+
+        // Set up the button to open DatePickerDialog
+        dateButton.setOnClickListener(v -> {
+            if (!input.getText().toString().isEmpty()) {
+                showDatePickerDialog(new Task(input.getText().toString()));
+            } else {
+                Toast.makeText(MainActivity.this, "Please enter a task name first.", Toast.LENGTH_SHORT).show();
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+
+        builder.setPositiveButton("Add", (dialog, which) -> {
+            String taskName = input.getText().toString();
+            if (!taskName.isEmpty()) {
+                tasks.add(new Task(taskName)); // Add the task without due date initially
+                taskadapter.notifyDataSetChanged();
             }
         });
 
+        builder.setNegativeButton("Cancel", null);
         builder.show();
+    }
+
+    // Method to display the DatePickerDialog for selecting a due date
+    private void showDatePickerDialog(Task task) {
+        Calendar c = Calendar.getInstance();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                (view, year, monthOfYear, dayOfMonth) -> {
+                    String dueDate = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+                    task.setDueDate(dueDate);
+                    tasks.add(task); // Add task with due date
+                    taskadapter.notifyDataSetChanged();
+                }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+
+        datePickerDialog.show();
     }
 }
