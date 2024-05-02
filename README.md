@@ -54,3 +54,4 @@ To summarize, the Task Tracker app's plan for development is a solid one that fo
 
 4/21/24--Added the option to make the due date an option for a task. The task does not have to be assigned a due date, but if the user wishes to recieve a noticifaction as the due date nears a due date for the task will need to be assigned. 
 4/25/24-- Added a menu to pop up for deletion of task when user is ready with a long press. 
+5/01/24-- Changed the option for deletion of task from a long press to a swipe which will give the option to either edit or delte the task.
